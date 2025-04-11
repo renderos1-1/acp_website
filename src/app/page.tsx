@@ -5,6 +5,8 @@ import Layout from '../components/layout/Layout';
 import Hero from '../components/Hero';
 import ServiceCards from '../components/ServiceCards';
 import ServicesSection from '../components/ServicesSection';
+import MissionVisionSection from '../components/MissionVisionSection';
+import ExpertsSection from '../components/ExpertsSection';
 import { FaArrowRight } from 'react-icons/fa';
 
 const HomePage = () => {
@@ -45,6 +47,12 @@ const HomePage = () => {
 
         {/* Services Section */}
         <ServicesSection />
+
+        {/* Mission and Vision Section */}
+        <MissionVisionSection />
+
+        {/* Experts Section */}
+        <ExpertsSection />
 
         {/* Contact CTA Section */}
         <section className="py-16 bg-gray-800 text-white">
