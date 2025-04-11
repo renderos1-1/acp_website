@@ -54,18 +54,7 @@ const HomePage = () => {
         {/* Experts Section */}
         <ExpertsSection />
 
-        {/* Contact CTA Section */}
-        <section className="py-16 bg-gray-800 text-white">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-6">¿Listo para trabajar con nosotros?</h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Nuestro equipo de profesionales está preparado para brindarle la mejor asesoría en materia contable, fiscal y financiera.
-            </p>
-            <button className="bg-white hover:bg-gray-200 text-gray-800 font-semibold py-3 px-8 rounded shadow transition duration-300">
-              Contáctenos Ahora
-            </button>
-          </div>
-        </section>
+
       </Layout>
   );
 };
