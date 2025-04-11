@@ -8,7 +8,7 @@ interface ServiceCardProps {
     href: string;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ title, href }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ title}) => {
     return (
         <div className="bg-gray-100 hover:bg-gray-200 p-8 rounded-lg shadow-md transition duration-300">
             <div className="flex justify-between items-center">
