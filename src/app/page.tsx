@@ -25,11 +25,15 @@ const HomePage = () => {
               <div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-6">Quiénes Somos</h2>
                 <p className="text-gray-600 mb-4">
-                  Somos una firma de Contadores Públicos debidamente autorizados por el Consejo de Vigilancia de la Profesión de la Contaduría Publica y Auditoria. Estamos comprometidos con brindar servicios de alta calidad; nuestra constante capacitación nos permite aportar herramientas fundamentales para ser un soporte oportuno en el cumplimiento de los objetivos de nuestros clientes.
+                    Somos una firma de Contadores Públicos debidamente autorizados
+                    por el Consejo de Vigilancia de la Profesión de la Contaduría Pública
+                    y Auditoria. Estamos comprometidos con brindar servicios de alta
+                    calidad; nuestra constante capacitación nos permite aportar
+                    herramientas fundamentales para ser un soporte oportuno en el
+                    cumplimiento de los objetivos de nuestros clientes, manteniendo
+                    siempre la ética profesional, independencia y confidencialidad.
                 </p>
-                <p className="text-gray-600 mb-6">
-                  Mantenemos la ética profesional, independencia y confidencialidad como pilares fundamentales de nuestro servicio.
-                </p>
+
                 <button className="inline-flex items-center text-gray-800 font-semibold hover:text-gray-600">
                   Conozca más sobre nosotros
                   <FaArrowRight className="ml-2" size={16} />

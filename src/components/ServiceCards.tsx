@@ -30,12 +30,16 @@ const ServiceCards: React.FC = () => {
                         <ServiceCard title="Auditoría Financiera" href="/auditoria-financiera" />
                     </Link>
 
-                    <Link href="/consultoria-fiscal">
-                        <ServiceCard title="Consultoría Fiscal" href="/consultoria-fiscal" />
+                    <Link href="/cumplimiento-lav">
+                        <ServiceCard title="Auditoria de Cumplimiento LAV" href="/cumplimiento-lav" />
                     </Link>
 
                     <Link href="/asesoria-empresarial">
-                        <ServiceCard title="Asesoría Empresarial" href="/asesoria-empresarial" />
+                        <ServiceCard title="Asesoría y Consultoria Empresarial" href="/asesoria-empresarial" />
+                    </Link>
+
+                    <Link href="/auditoria-fiscal">
+                        <ServiceCard title="Auditoria Fiscal" href="/auditoria-fiscal" />
                     </Link>
                 </div>
             </div>
