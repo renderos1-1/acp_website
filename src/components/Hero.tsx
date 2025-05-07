@@ -1,18 +1,19 @@
 "use client";
 
 import React from 'react';
+import Link from 'next/link';
 
 const Hero = () => {
     return (
         <div className="relative w-full h-96 bg-gray-800 overflow-hidden">
             {/* Dark overlay for better text visibility */}
-            */<div className="absolute inset-0 bg-black opacity-80"></div>
+            <div className="absolute inset-0 bg-black opacity-50"></div>
 
-            {/* Background image would be set in CSS or as a style */}
+            {/* Background image */}
             <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
-                    backgroundImage: '../images/location/foto-portada.jpg',
+                    backgroundImage: "url('/images/location/foto-portada.jpg')",
                 }}
             ></div>
 
@@ -25,9 +26,11 @@ const Hero = () => {
                     Servicios de alta calidad con ética, independencia y confidencialidad
                 </p>
                 <div>
-                    <button className="bg-white hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded shadow transition duration-300">
-                        Contáctenos Ahora
-                    </button>
+                    <Link href="/contacto">
+                        <button className="bg-white hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded shadow transition duration-300">
+                            Contáctenos Ahora
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>
