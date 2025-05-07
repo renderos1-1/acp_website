@@ -5,11 +5,8 @@ import Link from 'next/link';
 
 const Hero = () => {
     return (
-        <div className="relative w-full h-96 bg-gray-800 overflow-hidden">
-            {/* Dark overlay for better text visibility */}
-            <div className="absolute inset-0 bg-black opacity-50"></div>
-
-            {/* Background image */}
+        <div className="relative w-full h-96 overflow-hidden">
+            {/* Background image - positioned at the bottom layer */}
             <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
@@ -17,8 +14,11 @@ const Hero = () => {
                 }}
             ></div>
 
-            {/* Content */}
-            <div className="relative z-10 flex flex-col justify-center h-full px-6 md:px-12 lg:px-24">
+            {/* Dark overlay - positioned above the image but below the content */}
+            <div className="absolute inset-0 bg-black opacity-65 z-10"></div>
+
+            {/* Content - highest z-index to appear above both image and overlay */}
+            <div className="relative z-20 flex flex-col justify-center h-full px-6 md:px-12 lg:px-24">
                 <h1 className="text-4xl md:text-4xl font-bold text-white mb-4">
                     AUDITORIA Y CONSULTORIA EMPRESARIAL<br />
                 </h1>
