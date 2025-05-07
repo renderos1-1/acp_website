@@ -3,7 +3,6 @@
 import React from 'react';
 import Layout from '../components/layout/Layout';
 import Hero from '../components/Hero';
-import ServiceCards from '../components/ServiceCards';
 import ServicesSection from '../components/ServicesSection';
 import MissionVisionSection from '../components/MissionVisionSection';
 import ExpertsSection from '../components/ExpertsSection';
