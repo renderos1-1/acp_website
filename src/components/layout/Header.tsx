@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Header: React.FC = () => {
@@ -18,8 +19,19 @@ const Header: React.FC = () => {
                     {/* Logo */}
                     <Link href="/">
                         <div className="flex items-center cursor-pointer">
-                            <span className="text-2xl font-bold text-gray-800">CAÑAS</span>
-                            <span className="ml-2 text-lg text-gray-600">Auditores y Consultores</span>
+                            {/* Logo Image */}
+                            <div className="relative h-22 w-auto mr-3">
+                                <img
+                                    src="/images/logo/logo-acp.png"
+                                    alt="CAÑAS Auditores y Consultores Logo"
+                                    className="h-full w-auto object-contain"
+                                />
+                            </div>
+                            {/* Optional: you can keep or remove the text next to the logo */}
+                            <div>
+                                <span className="text-xl font-bold text-gray-800">CAÑAS</span>
+                                <span className="ml-2 text-base text-gray-600">Auditores y Consultores</span>
+                            </div>
                         </div>
                     </Link>
 

@@ -16,7 +16,7 @@ const HomePage = () => {
         <Hero />
 
         {/* Service Cards Section */}
-        <ServiceCards />
+
 
         {/* About Us Section */}
           <section className="py-16 bg-gray-50">

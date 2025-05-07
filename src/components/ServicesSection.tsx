@@ -67,7 +67,16 @@ const ServicesSection: React.FC = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-4">
                             Todos los servicios que ofrecemos
                         </h2>
-                        <div className="w-16 h-1 bg-gray-800"></div>
+                        <div className="w-16 h-1 bg-gray-800 mb-6"></div>
+
+                        {/* Added Image Section */}
+                        <div className="rounded-lg overflow-hidden shadow-md mt-6 mb-6">
+                            <img
+                                src="/images/location/foto-servicios.jpg"
+                                alt="Nuestros servicios"
+                                className="w-full h-auto object-cover"
+                            />
+                        </div>
                     </div>
                     <div className="md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-8">
                         {services.map((service, index) => (
