@@ -26,8 +26,13 @@ const MissionVisionSection: React.FC = () => {
                             <div>
                                 <h3 className="text-2xl font-bold text-gray-800 mb-2">Nuestra Visión</h3>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Ser la principal firma contable dentro del mercado local y regional, reconocida como lugar de excelencia para soluciones personales y profesionales de contabilidad y fiscalidad con soporte dedicado.
-                                </p>
+                                    Ser una firma líder de contadores, auditores y
+                                    consultores empresariales reconocida por su alto
+                                    nivel de profesionalismo, responsabilidad y calidad
+                                    en sus resultados, caracterizada por contar con
+                                    personal capacitado en todas las áreas de
+                                    Contaduría Pública, Finanzas, Auditoria y áreas
+                                    afines.                                </p>
                             </div>
                         </div>
                     </div>
@@ -43,8 +48,9 @@ const MissionVisionSection: React.FC = () => {
                             <div>
                                 <h3 className="text-2xl font-bold text-gray-800 mb-2">Nuestra Misión</h3>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Proporcionar servicios de contabilidad y consultoría de calidad, asequibles y confiables que permitan a nuestros clientes alcanzar sus objetivos empresariales, agregando valor y propósito a sus vidas y negocios.
-                                </p>
+                                    Brindar servicios de calidad y excelencia a nuestros
+                                    clientes en las áreas de Auditoría, Finanzas, Laboral,
+                                    Contable y otras áreas afines.                                 </p>
                             </div>
                         </div>
                     </div>
