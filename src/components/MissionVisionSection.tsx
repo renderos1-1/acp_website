@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { FaEye, FaBriefcase } from 'react-icons/fa';
+import { FaEye, FaBriefcase, FaClipboardCheck } from 'react-icons/fa';
 
 const MissionVisionSection: React.FC = () => {
     return (
@@ -11,10 +11,10 @@ const MissionVisionSection: React.FC = () => {
             paddingBottom: '80px'
         }}>
             {/* Dark overlay for better text contrast */}
-            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-70"></div>
 
             <div className="container mx-auto px-4 relative z-10">
-                <div className="flex flex-col lg:flex-row gap-10">
+                <div className="flex flex-col lg:flex-row gap-10 mb-10">
                     {/* Vision Box */}
                     <div className="bg-white p-8 rounded-lg shadow-md lg:w-1/2 transform transition-transform duration-500 hover:translate-y-[-5px]">
                         <div className="flex items-start mb-6">
@@ -26,13 +26,8 @@ const MissionVisionSection: React.FC = () => {
                             <div>
                                 <h3 className="text-2xl font-bold text-gray-800 mb-2">Nuestra Visión</h3>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Ser una firma líder de contadores, auditores y
-                                    consultores empresariales reconocida por su alto
-                                    nivel de profesionalismo, responsabilidad y calidad
-                                    en sus resultados, caracterizada por contar con
-                                    personal capacitado en todas las áreas de
-                                    Contaduría Pública, Finanzas, Auditoria y áreas
-                                    afines.                                </p>
+                                    Ser una firma líder de contadores, auditores y consultores empresariales reconocida por su alto nivel de profesionalismo, responsabilidad y calidad en sus resultados, caracterizada por contar con personal capacitado en todas las áreas de Contaduría Pública, Finanzas, Auditoría y áreas afines.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -48,9 +43,46 @@ const MissionVisionSection: React.FC = () => {
                             <div>
                                 <h3 className="text-2xl font-bold text-gray-800 mb-2">Nuestra Misión</h3>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Brindar servicios de calidad y excelencia a nuestros
-                                    clientes en las áreas de Auditoría, Finanzas, Laboral,
-                                    Contable y otras áreas afines.                                 </p>
+                                    Brindar servicios de calidad y excelencia a nuestros clientes en las áreas de Auditoría, Finanzas, Laboral, Contable y otras áreas afines.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Values Box - Centered and more compact */}
+                <div className="flex justify-center">
+                    <div className="bg-white p-8 rounded-lg shadow-md lg:w-1/2 transform transition-transform duration-500 hover:translate-y-[-5px]">
+                        <div className="flex items-start">
+                            <div className="mr-4">
+                                <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                                    <FaClipboardCheck className="text-gray-600" size={24} />
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="text-2xl font-bold text-gray-800 mb-3">Nuestros Valores</h3>
+                                <ul className="list-none space-y-1">
+                                    <li className="flex items-center">
+                                        <span className="mr-2 text-gray-800">•</span>
+                                        <span className="text-gray-600">Integridad</span>
+                                    </li>
+                                    <li className="flex items-center">
+                                        <span className="mr-2 text-gray-800">•</span>
+                                        <span className="text-gray-600">Independencia</span>
+                                    </li>
+                                    <li className="flex items-center">
+                                        <span className="mr-2 text-gray-800">•</span>
+                                        <span className="text-gray-600">Honestidad</span>
+                                    </li>
+                                    <li className="flex items-center">
+                                        <span className="mr-2 text-gray-800">•</span>
+                                        <span className="text-gray-600">Profesionalismo</span>
+                                    </li>
+                                    <li className="flex items-center">
+                                        <span className="mr-2 text-gray-800">•</span>
+                                        <span className="text-gray-600">Confidencialidad</span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
