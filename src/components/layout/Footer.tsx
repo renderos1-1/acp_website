@@ -35,24 +35,53 @@ const Footer: React.FC = () => {
     const [contactReason, setContactReason] = useState('');
     const [message, setMessage] = useState('');
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Here you would handle the form submission, like sending to an API
-        console.log({ name, email, phone, service, contactReason, message });
-        setFormSubmitted(true);
-        // Reset form after submission
-        setName('');
-        setEmail('');
-        setPhone('');
-        setService('');
-        setContactReason('');
-        setMessage('');
+        setIsSubmitting(true);
+        setSubmitError('');
 
-        // Reset submission status after 3 seconds
-        setTimeout(() => {
-            setFormSubmitted(false);
-        }, 3000);
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    phone,
+                    service,
+                    contactReason,
+                    message,
+                }),
+            });
+
+            if (response.ok) {
+                setFormSubmitted(true);
+                // Reset form after successful submission
+                setName('');
+                setEmail('');
+                setPhone('');
+                setService('');
+                setContactReason('');
+                setMessage('');
+
+                // Reset submission status after 5 seconds
+                setTimeout(() => {
+                    setFormSubmitted(false);
+                }, 5000);
+            } else {
+                const errorData = await response.json();
+                setSubmitError(errorData.error || 'Error al enviar el formulario');
+            }
+        } catch {
+            setSubmitError('Error de conexión. Por favor, intente nuevamente.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -83,9 +112,15 @@ const Footer: React.FC = () => {
                         <div className="md:w-1/2">
                             {formSubmitted ? (
                                 <div className="bg-green-600 text-white p-4 rounded">
-                                    ¡Gracias por contactarnos! Nos comunicaremos pronto.
+                                    ¡Gracias por contactarnos! Hemos recibido su mensaje y nos comunicaremos con usted pronto.
                                 </div>
                             ) : (
+                                <>
+                                    {submitError && (
+                                        <div className="bg-red-600 text-white p-4 rounded mb-4">
+                                            {submitError}
+                                        </div>
+                                    )}
                                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                                     <div className="flex flex-col md:flex-row gap-4">
                                         <input
@@ -148,13 +183,15 @@ const Footer: React.FC = () => {
                                     <div className="w-full flex items-center">
                                         <button
                                             type="submit"
-                                            className="flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-200 text-gray-900 font-medium rounded transition-colors duration-300"
+                                            disabled={isSubmitting}
+                                            className="flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-200 disabled:bg-gray-400 disabled:cursor-not-allowed text-gray-900 font-medium rounded transition-colors duration-300"
                                         >
-                                            Contactar
-                                            <FaArrowRight className="ml-2" />
+                                            {isSubmitting ? 'Enviando...' : 'Contactar'}
+                                            {!isSubmitting && <FaArrowRight className="ml-2" />}
                                         </button>
                                     </div>
                                 </form>
+                                </>
                             )}
                         </div>
                     </div>
@@ -170,19 +207,20 @@ const Footer: React.FC = () => {
                             <h3 className="text-lg font-bold text-gray-800 mb-4">Empresa</h3>
                             <ul className="space-y-2">
                                 <li>
-                                    <Link href="/quienes-somos" className="text-gray-600 hover:text-gray-900">
+                                    <a href="/#mission-vision" className="text-gray-600 hover:text-gray-900">
                                         Quiénes Somos
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
-                                    <Link href="/socios" className="text-gray-600 hover:text-gray-900">
+                                    <a href="/#experts" className="text-gray-600 hover:text-gray-900">
                                         Nuestros Socios
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
-                                    <Link href="/empleos" className="text-gray-600 hover:text-gray-900">
+                                    <span className="text-gray-400 cursor-not-allowed">
                                         Empleos
-                                    </Link>
+                                    </span>
+                                    <span className="text-xs text-gray-400 block">(Próximamente)</span>
                                 </li>
                                 <li>
                                     <Link href="/noticias" className="text-gray-600 hover:text-gray-900">
@@ -197,29 +235,29 @@ const Footer: React.FC = () => {
                             <h3 className="text-lg font-bold text-gray-800 mb-4">Servicios</h3>
                             <ul className="space-y-2">
                                 <li>
-                                    <Link href="/auditoria-financiera" className="text-gray-600 hover:text-gray-900">
+                                    <a href="/#services" className="text-gray-600 hover:text-gray-900">
                                         Auditoría Financiera
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
-                                    <Link href="/auditoria-fiscal" className="text-gray-600 hover:text-gray-900">
+                                    <a href="/#services" className="text-gray-600 hover:text-gray-900">
                                         Auditoría Fiscal
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
-                                    <Link href="/auditoria-forense" className="text-gray-600 hover:text-gray-900">
+                                    <a href="/#services" className="text-gray-600 hover:text-gray-900">
                                         Auditoría Forense
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
-                                    <Link href="/consultoria-empresarial" className="text-gray-600 hover:text-gray-900">
+                                    <a href="/#services" className="text-gray-600 hover:text-gray-900">
                                         Consultoría Empresarial
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
-                                    <Link href="/outsourcing-contable" className="text-gray-600 hover:text-gray-900">
+                                    <a href="/#services" className="text-gray-600 hover:text-gray-900">
                                         Outsourcing Contable
-                                    </Link>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -229,19 +267,21 @@ const Footer: React.FC = () => {
                             <h3 className="text-lg font-bold text-gray-800 mb-4">Recursos</h3>
                             <ul className="space-y-2">
                                 <li>
-                                    <Link href="/recursos/guias" className="text-gray-600 hover:text-gray-900">
-                                        Guías y Publicaciones
+                                    <Link href="/noticias" className="text-gray-600 hover:text-gray-900">
+                                        Noticias y Publicaciones
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/recursos/preguntas-frecuentes" className="text-gray-600 hover:text-gray-900">
+                                    <span className="text-gray-400 cursor-not-allowed">
                                         Preguntas Frecuentes
-                                    </Link>
+                                    </span>
+                                    <span className="text-xs text-gray-400 block">(Próximamente)</span>
                                 </li>
                                 <li>
-                                    <Link href="/recursos/glosario" className="text-gray-600 hover:text-gray-900">
+                                    <span className="text-gray-400 cursor-not-allowed">
                                         Glosario
-                                    </Link>
+                                    </span>
+                                    <span className="text-xs text-gray-400 block">(Próximamente)</span>
                                 </li>
                             </ul>
                         </div>

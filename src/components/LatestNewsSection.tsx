@@ -95,11 +95,12 @@ const LatestNewsSection: React.FC = () => {
             </div>
 
             <div className="text-center mt-10">
-              <Link href="/noticias">
-                <button className="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded transition-colors duration-300">
-                  Ver todas las noticias
-                  <FaArrowRight className="ml-2" />
-                </button>
+              <Link 
+                href="/noticias"
+                className="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded transition-colors duration-300"
+              >
+                Ver todas las noticias
+                <FaArrowRight className="ml-2" />
               </Link>
             </div>
           </>
