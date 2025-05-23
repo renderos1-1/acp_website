@@ -26,7 +26,7 @@ const Hero = () => {
                     Servicios de alta calidad con ética, independencia y confidencialidad
                 </p>
                 <div>
-                    <Link href="/contacto">
+                    <Link href="#contact">
                         <button className="bg-white hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded shadow transition duration-300">
                             Contáctenos Ahora
                         </button>

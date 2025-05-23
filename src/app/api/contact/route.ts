@@ -13,15 +13,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create transporter - Using Gmail SMTP as default, can be configured via env vars
+    // Debug: Log environment variables (without password)
+    console.log('SMTP Configuration:', {
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      user: process.env.SMTP_USER,
+      from: process.env.SMTP_FROM,
+      hasPassword: !!process.env.SMTP_PASS
+    });
+
+    // Create transporter - Using cPanel SMTP configuration (Secure SSL/TLS)
+    const smtpPort = parseInt(process.env.SMTP_PORT || '465');
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false, // true for 465, false for other ports
+      host: process.env.SMTP_HOST || 'mail.acp-audicon.com',
+      port: smtpPort,
+      secure: true, // true for 465 (SSL), false for other ports
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
+      // SSL/TLS configuration for cPanel
+      tls: {
+        rejectUnauthorized: false, // Allow self-signed certificates common in cPanel
+      },
+      // Connection timeouts
+      connectionTimeout: 60000, // 1 minute
+      greetingTimeout: 30000,
+      socketTimeout: 60000
     });
 
     // Get service label for display
@@ -110,14 +128,22 @@ export async function POST(request: NextRequest) {
       </div>
     `;
 
+    // Test connection first
+    console.log('Testing SMTP connection...');
+    await transporter.verify();
+    console.log('SMTP connection verified successfully');
+
     // Send email
-    await transporter.sendMail({
+    console.log('Sending email...');
+    const result = await transporter.sendMail({
       from: process.env.SMTP_FROM || process.env.SMTP_USER,
       to: 'info@acp-audicon.com',
       subject: `Nueva solicitud de contacto - ${contactReasonLabel}`,
       html: htmlContent,
       replyTo: email,
     });
+    
+    console.log('Email sent successfully:', result.messageId);
 
     return NextResponse.json(
       { message: 'Email enviado exitosamente' },
@@ -126,8 +152,18 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error sending email:', error);
+    
+    // More detailed error logging
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
+    
     return NextResponse.json(
-      { error: 'Error interno del servidor al enviar el email' },
+      { 
+        error: 'Error interno del servidor al enviar el email',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }

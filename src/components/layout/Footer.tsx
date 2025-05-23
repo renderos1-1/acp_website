@@ -87,7 +87,7 @@ const Footer: React.FC = () => {
     return (
         <footer className="w-full">
             {/* Top Section - Contact Form */}
-            <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-12">
+            <div id="contact" className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-12">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col md:flex-row md:items-start">
                         <div className="md:w-1/2 mb-8 md:mb-0 pr-0 md:pr-8">
