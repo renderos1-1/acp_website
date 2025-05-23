@@ -2,12 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FaArrowRight, FaCalendarAlt, FaFilePdf } from 'react-icons/fa';
+import { FaArrowRight, FaCalendarAlt } from 'react-icons/fa';
 import { getArticles, normalizeArticlesData } from '@/lib/api';
-import { Article } from '@/types/article';
 
 const LatestNewsSection: React.FC = () => {
-  const [articles, setArticles] = useState<any[]>([]);
+  const [articles, setArticles] = useState<any[]>([]); // eslint-disable-line @typescript-eslint/no-explicit-any
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
