@@ -207,14 +207,14 @@ const Footer: React.FC = () => {
                             <h3 className="text-lg font-bold text-gray-800 mb-4">Empresa</h3>
                             <ul className="space-y-2">
                                 <li>
-                                    <a href="/#mission-vision" className="text-gray-600 hover:text-gray-900">
+                                    <Link href="/#mission-vision" className="text-gray-600 hover:text-gray-900">
                                         Quiénes Somos
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="/#experts" className="text-gray-600 hover:text-gray-900">
+                                    <Link href="/#experts" className="text-gray-600 hover:text-gray-900">
                                         Nuestros Socios
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <span className="text-gray-400 cursor-not-allowed">
@@ -235,29 +235,29 @@ const Footer: React.FC = () => {
                             <h3 className="text-lg font-bold text-gray-800 mb-4">Servicios</h3>
                             <ul className="space-y-2">
                                 <li>
-                                    <a href="/#services" className="text-gray-600 hover:text-gray-900">
+                                    <Link href="/#services" className="text-gray-600 hover:text-gray-900">
                                         Auditoría Financiera
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="/#services" className="text-gray-600 hover:text-gray-900">
+                                    <Link href="/#services" className="text-gray-600 hover:text-gray-900">
                                         Auditoría Fiscal
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="/#services" className="text-gray-600 hover:text-gray-900">
+                                    <Link href="/#services" className="text-gray-600 hover:text-gray-900">
                                         Auditoría Forense
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="/#services" className="text-gray-600 hover:text-gray-900">
+                                    <Link href="/#services" className="text-gray-600 hover:text-gray-900">
                                         Consultoría Empresarial
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="/#services" className="text-gray-600 hover:text-gray-900">
+                                    <Link href="/#services" className="text-gray-600 hover:text-gray-900">
                                         Outsourcing Contable
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
