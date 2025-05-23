@@ -15,11 +15,7 @@ const ServiceItem: React.FC<ServiceItemProps> = ({ icon, title }) => {
                 {icon}
             </div>
             <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">{title}</h3>
-
-                <button className="text-gray-700 font-medium hover:text-gray-900">
-                    Conocer Más
-                </button>
+                <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
             </div>
         </div>
     );

@@ -2,23 +2,32 @@
 
 import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { useRouter, usePathname } from 'next/navigation';
 
 const Header: React.FC = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const router = useRouter();
+    const pathname = usePathname();
 
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
     };
 
     const scrollToSection = (sectionId: string) => {
+        // Close mobile menu if open
+        if (mobileMenuOpen) {
+            setMobileMenuOpen(false);
+        }
+
+        // If we're not on the homepage, navigate to homepage first
+        if (pathname !== '/') {
+            router.push(`/#${sectionId}`);
+            return;
+        }
+
+        // If we're on the homepage, scroll to the section
         const section = document.getElementById(sectionId);
         if (section) {
-            // Close mobile menu if open
-            if (mobileMenuOpen) {
-                setMobileMenuOpen(false);
-            }
-
-            // Scroll to the section
             section.scrollIntoView({ behavior: 'smooth' });
         }
     };
@@ -80,6 +89,12 @@ const Header: React.FC = () => {
                             Nuestro Equipo
                         </button>
                         <button
+                            onClick={() => scrollToSection('news')}
+                            className="text-gray-700 hover:text-gray-900 font-medium"
+                        >
+                            Noticias
+                        </button>
+                        <button
                             onClick={() => scrollToSection('contact')}
                             className="text-gray-700 hover:text-gray-900 font-medium"
                         >
@@ -133,6 +148,12 @@ const Header: React.FC = () => {
                                 className="text-left text-gray-700 hover:text-gray-900 py-2 font-medium"
                             >
                                 Nuestro Equipo
+                            </button>
+                            <button
+                                onClick={() => scrollToSection('news')}
+                                className="text-left text-gray-700 hover:text-gray-900 py-2 font-medium"
+                            >
+                                Noticias
                             </button>
                             <button
                                 onClick={() => scrollToSection('contact')}

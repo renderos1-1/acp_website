@@ -1,14 +1,28 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout from '../components/layout/Layout';
 import Hero from '../components/Hero';
 import ServicesSection from '../components/ServicesSection';
 import MissionVisionSection from '../components/MissionVisionSection';
 import ExpertsSection from '../components/ExpertsSection';
+import LatestNewsSection from '../components/LatestNewsSection';
 import { FaArrowRight } from 'react-icons/fa';
 
 const HomePage = () => {
+    useEffect(() => {
+        // Check if there's a hash in the URL and scroll to it
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+            // Small delay to ensure the page has rendered
+            setTimeout(() => {
+                const element = document.getElementById(hash);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        }
+    }, []);
     return (
         <Layout>
             {/* Hero Section */}
@@ -61,6 +75,11 @@ const HomePage = () => {
             {/* Experts Section */}
             <div id="experts">
                 <ExpertsSection />
+            </div>
+
+            {/* Latest News Section */}
+            <div id="news">
+                <LatestNewsSection />
             </div>
 
             {/* Contact Section - The footer will be rendered by the Layout component,
