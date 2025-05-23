@@ -1,159 +1,252 @@
-import axios from 'axios';
-import { ArticleDetailResponse, ArticleListResponse } from '@/types/article';
+// src/lib/api.ts
 
-const API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1338';
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
-console.log('Using API URL:', API_URL);
+// Types for Strapi v5 data structures
+export interface StrapiImage {
+  id: number;
+  documentId: string;
+  url: string;
+  alternativeText?: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+  formats?: {
+    thumbnail?: { url: string; width: number; height: number; };
+    small?: { url: string; width: number; height: number; };
+    medium?: { url: string; width: number; height: number; };
+    large?: { url: string; width: number; height: number; };
+  };
+}
 
-// Create a reusable axios instance with base configuration
-const apiClient = axios.create({
-  baseURL: `${API_URL}/api`,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  // Include credentials
-  withCredentials: true
-});
+export interface StrapiArticle {
+  id: number;
+  documentId: string;
+  Title: string;
+  Content: string;
+  Summary?: string;
+  Slug: string;
+  Category?: string;
+  PublishedDate?: string;
+  publishedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  locale?: string | null;
+  FeaturedImage?: StrapiImage;
+  Documents?: StrapiDocument[];
+}
 
-// Add a request interceptor for debugging
-apiClient.interceptors.request.use(
-  (config) => {
-    console.log(`Making request to: ${config.baseURL}${config.url}`);
-    return config;
-  },
-  (error) => {
-    console.error('Request error:', error);
-    return Promise.reject(error);
+export interface StrapiDocument {
+  id: number;
+  documentId: string;
+  name: string;
+  url: string;
+  mime: string;
+  size: number;
+}
+
+export interface StrapiResponse<T> {
+  data: T;
+  meta?: {
+    pagination?: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}
+
+export interface NormalizedArticle {
+  id: number;
+  documentId: string;
+  title: string;
+  content: string;
+  summary?: string;
+  slug: string;
+  category?: string;
+  publishedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  locale?: string | null;
+  featuredImage?: StrapiImage;
+  documents?: StrapiDocument[];
+}
+
+// Utility function to construct full URLs
+const getStrapiUrl = (url: string): string => {
+  if (url.startsWith('http')) {
+    return url;
   }
-);
-
-// Add a response interceptor for debugging
-apiClient.interceptors.response.use(
-  (response) => {
-    console.log('Response received successfully');
-    return response;
-  },
-  (error) => {
-    console.error('Response error:', error.message);
-    if (error.response) {
-      console.error('Error data:', error.response.data);
-      console.error('Error status:', error.response.status);
-    }
-    return Promise.reject(error);
-  }
-);
-
-// Function to fetch list of articles - simplified to avoid query parameters
-export const getArticles = async (): Promise<ArticleListResponse> => {
-  try {
-    // Try our proxy API route first
-    console.log('Fetching articles from local proxy API route');
-    const response = await fetch(`/api/articles`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching articles:', error);
-    throw error;
-  }
+  return `${STRAPI_URL}${url}`;
 };
 
-// Function to fetch a single article by slug
-export const getArticleBySlug = async (slug: string): Promise<ArticleDetailResponse> => {
-  try {
-    // Use our dedicated proxy API route for fetching by slug
-    console.log('Fetching article by slug from local proxy API route:', slug);
-    const response = await fetch(`/api/articles/${slug}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+// Normalize Strapi v5 response format
+export const normalizeArticlesData = (response: StrapiResponse<StrapiArticle[]>): { articles: NormalizedArticle[] } => {
+  if (!response || !response.data) {
+    return { articles: [] };
+  }
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  const articles = Array.isArray(response.data) ? response.data : [response.data];
+
+  const normalizedArticles: NormalizedArticle[] = articles.map((article: StrapiArticle) => {
+    let featuredImage: StrapiImage | undefined = undefined;
+    if (article.FeaturedImage) {
+      const imageData = article.FeaturedImage;
+      featuredImage = {
+        id: imageData.id,
+        documentId: imageData.documentId,
+        url: getStrapiUrl(imageData.url),
+        alternativeText: imageData.alternativeText,
+        caption: imageData.caption,
+        width: imageData.width,
+        height: imageData.height,
+        formats: imageData.formats,
+      };
     }
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching article by slug:', error);
-    throw error;
-  }
-};
-
-// Function to normalize article data - simplified for current structure
-export const normalizeArticleData = (article: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
-  const API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1338';
-  
-  // Log the Documents field for debugging
-  console.log('Documents field in response:', article.Documents);
-  
-  // Process documents safely - Documents can be null, single object, or array
-  let documents = [];
-  if (article.Documents) {
-    console.log('Raw Documents field:', article.Documents);
-    
-    if (Array.isArray(article.Documents)) {
-      // Handle array of documents
-      documents = article.Documents.map((doc: any) => ({ // eslint-disable-line @typescript-eslint/no-explicit-any
+    let documents: StrapiDocument[] = [];
+    if (article.Documents && Array.isArray(article.Documents)) {
+      documents = article.Documents.map((doc: StrapiDocument) => ({
         id: doc.id,
+        documentId: doc.documentId,
         name: doc.name || 'Document',
-        url: doc.url ? `${API_URL}${doc.url}` : '',
+        url: getStrapiUrl(doc.url),
         mime: doc.mime || 'application/pdf',
         size: doc.size || 0,
       }));
-    } else if (article.Documents.id) {
-      // Handle single document object
-      documents = [{
-        id: article.Documents.id,
-        name: article.Documents.name || 'Document',
-        url: article.Documents.url ? `${API_URL}${article.Documents.url}` : '',
-        mime: article.Documents.mime || 'application/pdf',
-        size: article.Documents.size || 0,
-      }];
     }
-    
-    console.log('Processed documents:', documents);
-  } else {
-    console.log('No Documents found in article');
-  }
-  
-  return {
-    ...article,
-    title: article.Title,
-    slug: article.Slug,
-    content: article.Content,
-    summary: article.Summary,
-    category: article.Category,
-    // Use PublishedDate if available, otherwise use publishedAt
-    publishedAt: article.PublishedDate || article.publishedAt,
-    // Add featuredImage if available
-    featuredImage: article.FeaturedImage ? {
-      url: `${API_URL}${article.FeaturedImage.url}`,
-      alternativeText: article.FeaturedImage.alternativeText,
-      width: article.FeaturedImage.width,
-      height: article.FeaturedImage.height,
-      formats: article.FeaturedImage.formats,
-    } : undefined,
-    // Add documents that were processed safely
-    documents: documents,
-  };
+
+    return {
+      id: article.id,
+      documentId: article.documentId,
+      title: article.Title,
+      content: article.Content,
+      summary: article.Summary,
+      slug: article.Slug,
+      category: article.Category,
+      publishedAt: article.PublishedDate || article.publishedAt,
+      createdAt: article.createdAt,
+      updatedAt: article.updatedAt,
+      locale: article.locale,
+      featuredImage,
+      documents,
+    };
+  });
+
+  return { articles: normalizedArticles };
 };
 
-// Function to normalize articles data
-export const normalizeArticlesData = (articlesData: ArticleListResponse) => {
-  return {
-    articles: articlesData.data.map(article => normalizeArticleData(article)),
-    pagination: articlesData.meta.pagination,
-  };
+// API Functions
+export const getArticles = async (limit?: number): Promise<StrapiResponse<StrapiArticle[]>> => {
+  const queryParams = new URLSearchParams();
+
+  // Add population for featured image and documents
+  queryParams.append('populate', 'FeaturedImage');
+  queryParams.append('populate', 'Documents');
+
+  // Add sorting (newest first)
+  queryParams.append('sort', 'publishedAt:desc');
+
+  // Add limit if specified
+  if (limit) {
+    queryParams.append('pagination[limit]', limit.toString());
+  }
+
+  const url = `${STRAPI_URL}/api/articles?${queryParams.toString()}`;
+
+  console.log('Fetching articles from:', url);
+
+  const response = await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch articles: ${response.status} ${response.statusText}`);
+  }
+
+  const data: StrapiResponse<StrapiArticle[]> = await response.json();
+  console.log('Articles response:', data);
+  return data;
+};
+
+export const getArticleBySlug = async (slug: string): Promise<StrapiResponse<StrapiArticle> | null> => {
+  const queryParams = new URLSearchParams();
+  queryParams.append('filters[Slug][$eq]', slug);
+  queryParams.append('populate', 'FeaturedImage');
+  queryParams.append('populate', 'Documents');
+
+  const url = `${STRAPI_URL}/api/articles?${queryParams.toString()}`;
+
+  console.log('Fetching article by slug from:', url);
+
+  const response = await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch article: ${response.status} ${response.statusText}`);
+  }
+
+  const data: StrapiResponse<StrapiArticle[]> = await response.json();
+  console.log('Article by slug response:', data);
+
+  if (data.data && data.data.length > 0) {
+    return { data: data.data[0] };
+  }
+
+  return null;
+};
+
+export interface ContactFormData {
+  name: string;
+  email: string;
+  phone?: string;
+  service: string;
+  contactReason: string;
+  message?: string;
+}
+
+// Contact form submission
+export const submitContactForm = async (formData: ContactFormData): Promise<boolean> => {
+  const response = await fetch(`${STRAPI_URL}/api/contact-messages`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      data: {
+        Name: formData.name,
+        Email: formData.email,
+        Phone: formData.phone,
+        Service: formData.service,
+        ContactReason: formData.contactReason,
+        Message: formData.message,
+      }
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to submit contact form: ${response.status} ${response.statusText}`);
+  }
+
+  return true;
+};
+
+// CV/Job application submission
+export const submitJobApplication = async (formData: FormData): Promise<boolean> => {
+  const response = await fetch(`${STRAPI_URL}/api/job-applications`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to submit job application: ${response.status} ${response.statusText}`);
+  }
+
+  return true;
 };
