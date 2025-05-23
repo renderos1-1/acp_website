@@ -137,6 +137,52 @@ export const normalizeArticlesData = (response: StrapiResponse<StrapiArticle[]>)
   return { articles: normalizedArticles };
 };
 
+// Normalize single article data
+export const normalizeArticleData = (article: StrapiArticle): NormalizedArticle => {
+  let featuredImage: StrapiImage | undefined = undefined;
+  if (article.FeaturedImage) {
+    const imageData = article.FeaturedImage;
+    featuredImage = {
+      id: imageData.id,
+      documentId: imageData.documentId,
+      url: getStrapiUrl(imageData.url),
+      alternativeText: imageData.alternativeText,
+      caption: imageData.caption,
+      width: imageData.width,
+      height: imageData.height,
+      formats: imageData.formats,
+    };
+  }
+
+  let documents: StrapiDocument[] = [];
+  if (article.Documents && Array.isArray(article.Documents)) {
+    documents = article.Documents.map((doc: StrapiDocument) => ({
+      id: doc.id,
+      documentId: doc.documentId,
+      name: doc.name || 'Document',
+      url: getStrapiUrl(doc.url),
+      mime: doc.mime || 'application/pdf',
+      size: doc.size || 0,
+    }));
+  }
+
+  return {
+    id: article.id,
+    documentId: article.documentId,
+    title: article.Title,
+    content: article.Content,
+    summary: article.Summary,
+    slug: article.Slug,
+    category: article.Category,
+    publishedAt: article.PublishedDate || article.publishedAt,
+    createdAt: article.createdAt,
+    updatedAt: article.updatedAt,
+    locale: article.locale,
+    featuredImage,
+    documents,
+  };
+};
+
 // API Functions
 export const getArticles = async (limit?: number): Promise<StrapiResponse<StrapiArticle[]>> => {
   const queryParams = new URLSearchParams();
