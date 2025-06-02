@@ -58,12 +58,6 @@ const Footer: React.FC = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <span className="text-gray-400 cursor-not-allowed">
-                                        Empleos
-                                    </span>
-                                    <span className="text-xs text-gray-400 block">(Próximamente)</span>
-                                </li>
-                                <li>
                                     <Link href="/noticias" className="text-gray-600 hover:text-gray-900">
                                         Noticias
                                     </Link>
