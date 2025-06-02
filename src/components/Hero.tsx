@@ -15,14 +15,14 @@ const Hero = () => {
             ></div>
 
             {/* Dark overlay - positioned above the image but below the content */}
-            <div className="absolute inset-0 bg-black opacity-65 z-10"></div>
+            <div className="absolute inset-0 bg-black opacity-40 z-10"></div>
 
             {/* Content - highest z-index to appear above both image and overlay */}
             <div className="relative z-20 flex flex-col justify-center h-full px-6 md:px-12 lg:px-24">
-                <h1 className="text-4xl md:text-4xl font-bold text-white mb-4">
+                <h1 className="text-4xl md:text-4xl font-bold text-white mb-4" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.8)'}}>
                     AUDITORIA Y CONSULTORIA EMPRESARIAL<br />
                 </h1>
-                <p className="text-xl text-gray-200 mb-8 max-w-xl">
+                <p className="text-xl text-gray-200 mb-8 max-w-xl" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.8)'}}>
                     Servicios de alta calidad con ética, independencia y confidencialidad
                 </p>
                 <div>

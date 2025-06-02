@@ -60,7 +60,7 @@ const ExpertsSection: React.FC = () => {
                 "Licenciado en Contaduría Pública con especialización en Auditoría Financiera y Fiscal de la Universidad Tecnológica de El Salvador, Contador y Auditor autorizado por el Consejo de Vigilancia de la Contaduría Pública y Auditoria, especialista certificado en la Ley de Lavado de Dinero y Activos.",
                 "Profesional que cuenta con más de 30 años de experiencia en materia de contabilidad, impuestos, auditoría financiera y auditoría fiscal."
             ],
-            imageUrl: "/images/team/dore-perez.jpeg"
+            imageUrl: "/images/team/dore-perez.jpg"
         },
         {
             name: "ENRIQUE CAÑAS JIMENEZ",
@@ -86,13 +86,6 @@ const ExpertsSection: React.FC = () => {
                     ))}
                 </div>
 
-                <div className="text-center mt-12">
-                    <Link href="/quienes-somos">
-                        <button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 rounded-none transition duration-300 font-medium">
-                            Conocer Más Sobre Nuestro Equipo
-                        </button>
-                    </Link>
-                </div>
             </div>
         </section>
     );

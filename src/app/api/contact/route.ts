@@ -22,24 +22,33 @@ export async function POST(request: NextRequest) {
       hasPassword: !!process.env.SMTP_PASS
     });
 
-    // Create transporter - Using cPanel SMTP configuration (Secure SSL/TLS)
-    const smtpPort = parseInt(process.env.SMTP_PORT || '465');
+    // Check if environment variables are missing
+    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.error('Missing required environment variables');
+      return NextResponse.json(
+        { error: 'Configuración de email no disponible' },
+        { status: 500 }
+      );
+    }
+
+    // Create transporter - Using cPanel SMTP configuration
+    const smtpPort = parseInt(process.env.SMTP_PORT || '587');
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'mail.acp-audicon.com',
       port: smtpPort,
-      secure: true, // true for 465 (SSL), false for other ports
+      secure: smtpPort === 465, // true for 465 (SSL), false for 587 (STARTTLS)
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
-      // SSL/TLS configuration for cPanel
+      // TLS configuration for cPanel
       tls: {
-        rejectUnauthorized: false, // Allow self-signed certificates common in cPanel
+        rejectUnauthorized: false, // Allow self-signed certificates
       },
-      // Connection timeouts
-      connectionTimeout: 60000, // 1 minute
-      greetingTimeout: 30000,
-      socketTimeout: 60000
+      // Shorter timeouts to fail faster
+      connectionTimeout: 30000, // 30 seconds
+      greetingTimeout: 10000,   // 10 seconds
+      socketTimeout: 30000      // 30 seconds
     });
 
     // Get service label for display
